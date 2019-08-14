@@ -14,11 +14,8 @@ let axios = require("axios");
 let moment = require('moment');
 // let fs = require("fs");
 
-// >> fs
 // fs is a core Node package for reading and writing files
-// >> moment
-// moment().format();
-// console.log("moment = ", moment)
+
 
 // Questions Array for Inquirer Prompt
 const questions = [
@@ -216,18 +213,17 @@ inquirer.prompt(questions)
 
 
 
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ==+=====================================+==
 
     // TODO: 
-    //  -   * Need to add Bands in Town
     //  -   * 08-Modularization
-    //  -   * add moment to time for concert venue info
-    //  -   * add fs option.. I did this homeowkr with inquirer, but could still do this in future
-    //  1.
-    //  2. add movie/band response info as per HW description
-    //  3. add Bands in Town to Axios Get call > get API key for axios.. hide key in .env? - Add File Name to .gitignore.  >> .env May expose all variables to process.env so I could just keep .gitignore as is..
+    //  -   * add fs option.. I did this homework with inquirer as additional option, but could still do this in future
+    //  -   
+    //  1. 
+    //  2. 
+    //  3. add to Markdown file
     //  4.
-    //  6. LINK TO PORTFOLIO, maybe GIF on my portfolio
+    //  6. LINK TO PORTFOLIO, - GIF/pictures on my portfolio 
     //  7.
     //  8.
     //  5. add error handling to .env hidden response >
@@ -239,8 +235,16 @@ inquirer.prompt(questions)
 
     // ==+=====================================+==
 
+
+    // Axios performs Get requests from LIRI's node module, and returns information from 
+ 
+ 
+    // interacts with Node-Spotify-API to provide song choice by User Song Choice Input. Axios performs Get Request to ........
+
+
     // ==+=====================================+==
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+
     // * This file will be used by the `dotenv` package to set what are known as environment variables to the global `process.env` object in node. These are values that are meant to be specific to the computer that node is running on, and since we are gitignoring this file, they won't be pushed to github &mdash; keeping our API key information private.
 
     // * If someone wanted to clone your app from github and run it themselves, they would need to supply their own `.env` file for it to work, with the following contents:
