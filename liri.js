@@ -11,8 +11,8 @@ let keys = require("./assets/keys.js");
 const inquirer = require("inquirer");
 let Spotify = require("node-spotify-api");
 let axios = require("axios");
+let moment = require('moment');
 // let fs = require("fs");
-// let moment = require('moment');
 
 // >> fs
 // fs is a core Node package for reading and writing files
@@ -26,7 +26,7 @@ const questions = [
         type: "list",
         name: "doingWhat",
         message: "\n[LIRI] - How can I help?\n\n",
-        choices: ["Search for Artist's Concert", "Find Album on Spotify", "Find Song on Spotify", "Look up Movies", "do-what-it-says.."]
+        choices: ["Search by Artist to find Concerts", "Find Album on Spotify", "Find Song on Spotify", "Look up Movies", "do-what-it-says.."]
     }, {
         type: "input",
         name: "userInput",
@@ -53,7 +53,7 @@ inquirer.prompt(questions)
             // - if user selects Actor/Actress or Movie - Axios Get request to OMDB API - display info
             // - if user selects conert, get info from Bands in Town
             // - if user selects DO-WHAT-I-SAY option  - read the random.txt file's contents via file system (fs)
-            case "Search for Artist's Concert":
+            case "Search by Artist to find Concerts":
                 type = "artist"
                 break;
             case "Find Song on Spotify":
@@ -106,52 +106,10 @@ inquirer.prompt(questions)
 
         }
 
-        // case: type = movie
-        if (type === "artist") {
-            const artist = answers.userInput
-
-            var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
-
-            axios.get(queryUrl)
-                .then(
-                    // Display Searched results from OMDB
-                    function (response) {
-                        let artistData = response
-                        console.log("artistData = ", artistData)
-                        console.log(`[LIRI] - Here are the search results for ${searchTerm}\n`)
-                        // console.log("movie = ", movie)
-                        console.log("==+=======================+==\n")
-
-
-
-                        // console.log(`Title:   ${movie.Title}\n`)
-                        // console.log(`Movie Released: ${movie.Released}`)
-                        // console.log(`IMDB Movie Rating: ${movie.Ratings[0].Value}`)
-                        // console.log(`Rotten Tomatoes Rating: ${movie.Ratings[1].Value}\n`)
-                        // console.log(`Actors: ${movie.Actors}`)
-                        // console.log(`Country: ${movie.Country}`)
-                        // console.log(`Language: ${movie.Language}\n`)
-                        // console.log(`Plot: ${movie.Plot}`)
-
-
-
-                        
-                        // console.log("\n==+=======================+==\n")
-                    })
-                // .catch(function (error) {
-                //     // If the request with axios is successful
-                //     if (error.response) {
-                //         console.log("error.response =", error.response)
-                //     } else {
-                //         console.log("Error = ", error)
-                //     }
-                // });
-
-        }
 
         // SPOTIFY
         // cases: type = track, albumn, or artist
-        else if (type === "track" || type === "album" || type === "artist") {
+        if (type === "track" || type === "album" || type === "artist") {
 
             // =======
             // Handle Artist, Albumn and Track Searches with Node-Spotify-Api
@@ -213,6 +171,40 @@ inquirer.prompt(questions)
 
         }
 
+        // AXIOS - BandsInTown - searching for artist event details
+        // case: type = artist
+        if (type === "artist") {
+            const artist = answers.userInput
+
+            var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
+
+            axios.get(queryUrl)
+                .then(
+                    // Display Searched results from OMDB
+                    function (response) {
+                        let info = response.data[0]
+                        // console.log("info = ", info)
+                        console.log(`[LIRI] - Here are the search results for ${searchTerm}\n`)
+
+                        console.log("==+=======================+==\n")
+
+                        console.log("Name of Venue: ", info.venue.name)
+                        console.log(`Venue Location: ${info.venue.city}, ${info.venue.country}`)
+
+                        let eventTime = moment(info.datetime).format("MM/DD/YYYY")
+                        console.log(`Event Date: ${eventTime}\n`)
+                    })
+                .catch(function (error) {
+                    // If the request with axios is successful
+                    if (error.response) {
+                        console.log("error.response =", error.response)
+                    } else {
+                        console.log("Error = ", error)
+                    }
+                });
+
+        }
+
     })
     .catch(function (error) {
         if (error.response) {
@@ -227,8 +219,10 @@ inquirer.prompt(questions)
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     // TODO: 
-    //  .    * Need to add Bands in Town
-    //   .   * 08-Modularization
+    //  -   * Need to add Bands in Town
+    //  -   * 08-Modularization
+    //  -   * add moment to time for concert venue info
+    //  -   * add fs option.. I did this homeowkr with inquirer, but could still do this in future
     //  1.
     //  2. add movie/band response info as per HW description
     //  3. add Bands in Town to Axios Get call > get API key for axios.. hide key in .env? - Add File Name to .gitignore.  >> .env May expose all variables to process.env so I could just keep .gitignore as is..
