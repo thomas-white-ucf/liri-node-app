@@ -4,7 +4,7 @@
   "description": "### LIRI is a _Language_ Interpretation and Recognition Interface. A command line node app that takes in parameters and gives you back data.",
   "main": "keys.js",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "dotenv": "^8.0.0",
     "inquirer": "^6.5.1",
     "moment": "^2.24.0",
